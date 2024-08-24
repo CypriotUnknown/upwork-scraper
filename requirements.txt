@@ -1,0 +1,13 @@
+certifi==2024.7.4
+charset-normalizer==3.3.2
+docker==7.1.0
+greenlet==3.0.3
+idna==3.8
+playwright==1.46.0
+pyee==11.1.0
+python-dotenv==1.0.1
+redis==5.0.8
+requests==2.32.3
+setuptools==73.0.1
+typing_extensions==4.12.2
+urllib3==2.2.2
