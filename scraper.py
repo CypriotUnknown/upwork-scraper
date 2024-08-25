@@ -13,7 +13,7 @@ class Scraper:
     pw_server_url: str
 
     def __init__(self) -> None:
-        self.pw_server_url = get_configuration_file()["playwright_server_uri"]
+        self.pw_server_url = get_configuration_file().get("playwright_server_uri")
         self.base_url = "https://www.upwork.com"
         self.docker = DockerManager()
 
