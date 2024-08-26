@@ -20,7 +20,9 @@ class Scraper:
     async def get_browser(self, p: Playwright):
         if self.pw_server_url is not None:
             print("connecting...")
-            return await p.chromium.connect(self.pw_server_url)
+            browser = await p.chromium.connect(self.pw_server_url)
+            print("connected to browser")
+            return browser
         else:
             print("starting local browser...")
             return await p.chromium.launch(headless=os.getenv("HEADLESS", True))
@@ -77,6 +79,8 @@ class Scraper:
 
             articles = await page.locator("section[data-test='JobsList'] article").all()
 
+            print(f"fetched {len(articles)} articles...")
+
             embeds = await asyncio.gather(
                 *(
                     construct_job_embed(article=article, base_url=self.base_url)
@@ -89,6 +93,8 @@ class Scraper:
                     jobs.append(embed.to_dict())
 
             publish_to_redis(jobs=jobs)
+
+            print(f"published {len(jobs)} jobs...")
 
             await browser.close()
 

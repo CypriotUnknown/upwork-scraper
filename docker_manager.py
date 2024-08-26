@@ -24,6 +24,7 @@ class DockerManager:
     def start_playwright_browser(self):
         client = docker.from_env()
         container = client.containers.get(self.pw_server_name)
+
         if container.status != ContainerStatus.running.value:
             container.start()
 
@@ -40,3 +41,6 @@ class DockerManager:
                 timeout -= 1
         else:
             self.pw_server_already_started = True
+            if container.health != "healthy":
+                container.restart()
+                self.start_playwright_browser()
